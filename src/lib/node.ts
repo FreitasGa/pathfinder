@@ -1,4 +1,4 @@
-import type { Position } from "./types";
+import type { Position } from "../types";
 
 export class Node {
   readonly position: Position;
@@ -7,9 +7,9 @@ export class Node {
   private _g: number;
   private _h: number;
   private _parent: Node | null;
-  private _isWalkable;
-  private _isOpened;
-  private _isClosed;
+  private _opened: boolean;
+  private _closed: boolean;
+  private _walkable: boolean;
 
   constructor(position: Position) {
     this.position = position;
@@ -17,9 +17,19 @@ export class Node {
     this._g = 0;
     this._h = 0;
     this._parent = null;
-    this._isWalkable = true;
-    this._isOpened = false;
-    this._isClosed = false;
+    this._opened = false;
+    this._closed = false;
+    this._walkable = true;
+  }
+
+  reset() {
+    this._f = 0;
+    this._g = 0;
+    this._h = 0;
+    this._parent = null;
+    this._opened = false;
+    this._closed = false;
+    this._walkable = true;
   }
 
   calculateF() {
@@ -30,6 +40,13 @@ export class Node {
     this._f = 0;
     this._g = 0;
     this._h = 0;
+  }
+
+  samePosition(other: Node) {
+    return (
+      this.position[0] === other.position[0] &&
+      this.position[1] === other.position[1]
+    );
   }
 
   get f() {
@@ -48,16 +65,16 @@ export class Node {
     return this._parent;
   }
 
-  get isWalkable() {
-    return this._isWalkable;
+  get opened() {
+    return this._opened;
   }
 
-  get isOpened() {
-    return this._isOpened;
+  get closed() {
+    return this._closed;
   }
 
-  get isClosed() {
-    return this._isClosed;
+  get walkable() {
+    return this._walkable;
   }
 
   set g(value: number) {
@@ -74,15 +91,15 @@ export class Node {
     this._parent = value;
   }
 
-  set isWalkable(value: boolean) {
-    this._isWalkable = value;
+  set opened(value: boolean) {
+    this._opened = value;
   }
 
-  set isOpened(value: boolean) {
-    this._isOpened = value;
+  set closed(value: boolean) {
+    this._closed = value;
   }
 
-  set isClosed(value: boolean) {
-    this._isClosed = value;
+  set walkable(value: boolean) {
+    this._walkable = value;
   }
 }

@@ -1,81 +1,100 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { defaults, wait } from "../lib/utils";
-  import { goal, grid, start } from "../stores";
-  import Node from "./Node.svelte";
+  import { onMount } from "svelte";
   import { get } from "svelte/store";
 
-  function handleClick(event: CustomEvent<{ key: string }>) {
-    const { key } = event.detail;
-    const startNode = get(start);
-    const goalNode = get(goal);
+  import { animateWalls } from "../animations/grid";
+  import { defaults } from "../lib/utils";
+  import { grid, state } from "../stores";
+  import { State } from "../types";
+  import Node from "./Node.svelte";
 
+  let mouseDown = false;
+
+  function handleMouseDown(
+    event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }
+  ) {
+    const key = (event.target as EventTarget & HTMLDivElement).dataset.key!;
+    const currentState = get(state);
+
+    if (currentState !== State.Idle) {
+      return;
+    }
+
+    mouseDown = true;
     grid.update((value) => {
-      const node = value.getNode(key)!;
-
-      if (
-        startNode &&
-        node.position[0] === startNode.position[0] &&
-        node.position[1] === startNode.position[1]
-      ) {
-        return value;
-      }
-
-      if (
-        goalNode &&
-        node.position[0] === goalNode.position[0] &&
-        node.position[1] === goalNode.position[1]
-      ) {
-        return value;
-      }
-
-      node.isWalkable = !node.isWalkable;
-      value.setNode(key, node);
-
+      value.toggleWall(key);
       return value;
     });
   }
 
+  function handleMouseOver(
+    event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }
+  ) {
+    const key = (event.target as EventTarget & HTMLDivElement).dataset.key!;
+    const currentState = get(state);
+
+    if (currentState !== State.Idle || !mouseDown) {
+      return;
+    }
+
+    grid.update((value) => {
+      value.toggleWall(key);
+      return value;
+    });
+  }
+
+  function handleMouseUp() {
+    mouseDown = false;
+  }
+
+  function handleMouseLeave() {
+    mouseDown = false;
+  }
+
+  async function handleResetGrid() {
+    const currentState = get(state);
+
+    if (currentState !== State.Idle) {
+      throw new Error("Cannot reset grid while not idle");
+    }
+
+    state.set(State.Animating);
+
+    grid.update((value) => {
+      value.setStart(defaults.start.toString());
+      value.setGoal(defaults.goal.toString());
+
+      return value;
+    });
+
+    await animateWalls(defaults.walls);
+
+    state.set(State.Idle);
+  }
+
   onMount(() => {
-    const newGrid = $grid;
-
-    let wallIndex = 0;
-    const interval = setInterval(() => {
-      const wall = defaults.walls[wallIndex];
-      const node = newGrid.getNode(wall.toString())!;
-      node.isWalkable = false;
-      newGrid.setNode(wall.toString(), node);
-
-      grid.update(() => newGrid);
-
-      if (wallIndex === defaults.walls.length - 1) {
-        clearInterval(interval);
-      }
-
-      wallIndex++;
-    }, 150);
-
-    start.update(() => {
-      return newGrid.getNode(defaults.start.toString())!;
-    });
-
-    goal.update(() => {
-      return newGrid.getNode(defaults.goal.toString())!;
-    });
+    handleResetGrid();
   });
 </script>
 
-<div class="grid">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+<div
+  class="grid"
+  on:mousedown={handleMouseDown}
+  on:mouseup={handleMouseUp}
+  on:mouseover={handleMouseOver}
+  on:mouseleave={handleMouseLeave}
+>
   {#each $grid.matrix as row}
     <div class="row">
-      {#each row as column}
-        {#if $start?.position[0] === column.position[0] && $start.position[1] === column.position[1]}
-          <Node node={column} start={true} on:click={handleClick} />
-        {:else if $goal?.position[0] === column.position[0] && $goal.position[1] === column.position[1]}
-          <Node node={column} goal={true} on:click={handleClick} />
-        {:else}
-          <Node node={column} on:click={handleClick} />
-        {/if}
+      {#each row as node}
+        <Node
+          bind:node
+          start={$grid.start !== null ? node.samePosition($grid.start) : false}
+          goal={$grid.goal !== null ? node.samePosition($grid.goal) : false}
+          path={$grid.path.some((n) => node.samePosition(n))}
+        />
       {/each}
     </div>
   {/each}

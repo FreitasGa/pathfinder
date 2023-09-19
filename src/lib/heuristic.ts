@@ -1,18 +1,18 @@
 import type { Node } from "./node";
-import { Heuristic } from "./types";
+import { Heuristic } from "../types";
 
-export function manhattan(start: Node, goal: Node, distance: number): number {
-  const [x1, y1] = start.position;
-  const [x2, y2] = goal.position;
+export function manhattan(start: Node, goal: Node, weight: number) {
+  const dx = Math.abs(start.position[0] - goal.position[0]);
+  const dy = Math.abs(start.position[1] - goal.position[1]);
 
-  return distance + Math.abs(x1 - x2) + Math.abs(y1 - y2);
+  return (dx + dy) * weight;
 }
 
-export function euclidean(start: Node, goal: Node, distance: number): number {
-  const [x1, y1] = start.position;
-  const [x2, y2] = goal.position;
+export function euclidean(start: Node, goal: Node, weight: number) {
+  const dx = Math.abs(start.position[0] - goal.position[0]);
+  const dy = Math.abs(start.position[1] - goal.position[1]);
 
-  return distance + Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  return Math.sqrt(dx * dx + dy * dy) * weight;
 }
 
 const heuristics: Record<
@@ -26,8 +26,8 @@ const heuristics: Record<
 export function heuristic(
   start: Node,
   goal: Node,
-  distance: number,
+  weight: number,
   heuristic: Heuristic
 ) {
-  return heuristics[heuristic](start, goal, distance);
+  return heuristics[heuristic](start, goal, weight);
 }

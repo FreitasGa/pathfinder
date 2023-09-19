@@ -1,8 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-
   import type { Node } from "../lib/node";
-  import type { Position } from "../lib/types";
   import { calculateColor } from "../lib/utils";
 
   export let node: Node;
@@ -10,30 +7,14 @@
   export let goal: boolean = false;
   export let path: boolean = false;
 
-  interface Events {
-    click: {
-      key: string;
-    };
-  }
-
-  const dispatch = createEventDispatcher<Events>();
-
   $: color = calculateColor(node, start, goal, path);
-
-  function handleClick() {
-    dispatch("click", {
-      key: node.position.toString(),
-    });
-  }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   class="node {(start || goal) && 'start-goal'}"
   style="background-color: {color};"
-  role="button"
-  tabindex="0"
-  on:click={handleClick}
+  data-key={node.position.toString()}
 >
   {#if start}
     S
@@ -51,6 +32,7 @@
     text-align: center;
     vertical-align: middle;
     transition: background-color 0.5s ease;
+    color: white;
   }
 
   .start-goal {
