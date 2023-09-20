@@ -69,6 +69,78 @@ export class Grid {
     this.setNode(key, node);
   }
 
+  neighbors(key: string) {
+    const node = this.getNode(key)!;
+    const [x, y] = node.position;
+    const neighbors: Node[] = [];
+
+    if (y > 0) {
+      const neighbor = this.getNode([x, y - 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (y > 0 && x < this._size[0] - 1) {
+      const neighbor = this.getNode([x + 1, y - 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (x < this._size[0] - 1) {
+      const neighbor = this.getNode([x + 1, y].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (y < this._size[1] - 1 && x < this._size[0] - 1) {
+      const neighbor = this.getNode([x + 1, y + 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (y < this._size[1] - 1) {
+      const neighbor = this.getNode([x, y + 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (y < this._size[1] - 1 && x > 0) {
+      const neighbor = this.getNode([x - 1, y + 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (x > 0) {
+      const neighbor = this.getNode([x - 1, y].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    if (y > 0 && x > 0) {
+      const neighbor = this.getNode([x - 1, y - 1].toString());
+
+      if (neighbor && neighbor.walkable) {
+        neighbors.push(neighbor);
+      }
+    }
+
+    return neighbors;
+  }
+
   toggleWall(key: string) {
     const node = this.getNode(key)!;
 
