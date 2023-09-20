@@ -8,57 +8,12 @@
   import { State } from "../types";
   import Node from "./Node.svelte";
 
-  let mouseDown = false;
-
-  function handleMouseDown(
-    event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }
-  ) {
-    const key = (event.target as EventTarget & HTMLDivElement).dataset.key!;
-    const currentState = get(state);
-
-    if (currentState !== State.Idle) {
-      return;
-    }
-
-    mouseDown = true;
-    grid.update((value) => {
-      value.toggleWall(key);
-      return value;
-    });
-  }
-
-  function handleMouseOver(
-    event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }
-  ) {
-    const key = (event.target as EventTarget & HTMLDivElement).dataset.key!;
-    const currentState = get(state);
-
-    if (currentState !== State.Idle || !mouseDown) {
-      return;
-    }
-
-    grid.update((value) => {
-      value.toggleWall(key);
-      return value;
-    });
-  }
-
-  function handleMouseUp() {
-    mouseDown = false;
-  }
-
-  function handleMouseLeave() {
-    mouseDown = false;
-  }
-
   async function handleResetGrid() {
     const currentState = get(state);
 
     if (currentState !== State.Idle) {
       throw new Error("Cannot reset grid while not idle");
     }
-
-    state.set(State.Animating);
 
     grid.update((value) => {
       value.setStart(defaults.start.toString());
@@ -77,15 +32,7 @@
   });
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<div
-  class="grid"
-  on:mousedown={handleMouseDown}
-  on:mouseup={handleMouseUp}
-  on:mouseover={handleMouseOver}
-  on:mouseleave={handleMouseLeave}
->
+<div class="grid">
   {#each $grid.matrix as row}
     <div class="row">
       {#each row as node}
