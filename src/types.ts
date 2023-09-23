@@ -1,10 +1,3 @@
-export enum Heuristic {
-  Manhattan,
-  Euclidean,
-  // Chebyshev,
-  // Octile,
-}
-
 export enum State {
   Idle,
   Animating,

@@ -50,3 +50,38 @@ export async function animatePath(path: Node[]) {
 
   state.set(State.Idle);
 }
+
+export async function animateOpenedAndClosed(
+  opened: Node[][],
+  closed: Node[][]
+) {
+  if (opened.length === 0 && closed.length === 0) return;
+
+  const currentState = get(state);
+
+  if (currentState !== State.Idle) {
+    throw new Error("Cannot animate opened and closed while not idle");
+  }
+
+  state.set(State.Animating);
+
+  const currentGrid = get(grid);
+
+  for (let i = 0; i < opened.length; i++) {
+    await wait(20);
+
+    for (const node of opened[i]) {
+      node.opened = true;
+      currentGrid.setNode(node.position.toString(), node);
+    }
+
+    for (const node of closed[i]) {
+      node.closed = true;
+      currentGrid.setNode(node.position.toString(), node);
+    }
+
+    grid.forceUpdate();
+  }
+
+  state.set(State.Idle);
+}
