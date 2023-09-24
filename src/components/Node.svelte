@@ -94,6 +94,15 @@
     S
   {:else if goal}
     G
+  {:else if node.f || node.g || node.h}
+    <div class="values">
+      <div class="g-h-cost">
+        <span>{node.g}</span>
+        <span>{node.h}</span>
+      </div>
+
+      <span class="f-cost">{node.f}</span>
+    </div>
   {/if}
 </div>
 
@@ -109,6 +118,9 @@
     color: white;
   }
 
+  .values {
+    font-size: 0.625rem;
+  }
   .start-goal {
     font-weight: bold;
     user-select: none;

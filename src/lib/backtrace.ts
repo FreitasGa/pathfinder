@@ -1,12 +1,12 @@
 import type { Node } from "./node";
-import type { Position } from "../types";
 
 export function backtrace(node: Node) {
-  const path: Node[] = [node];
+  const path: Node[] = [];
+  let current = node;
 
-  while (node.parent) {
-    path.unshift(node.parent);
-    node = node.parent;
+  while (current.parent) {
+    path.unshift(current);
+    current = current.parent;
   }
 
   return path;

@@ -68,13 +68,13 @@ export async function animateOpenedAndClosed(
   const currentGrid = get(grid);
 
   for (let i = 0; i < opened.length; i++) {
-    await wait(20);
+    await wait(5);
 
     for (const node of opened[i]) {
       node.opened = true;
       currentGrid.setNode(node.position.toString(), node);
     }
-
+    
     for (const node of closed[i]) {
       node.closed = true;
       currentGrid.setNode(node.position.toString(), node);

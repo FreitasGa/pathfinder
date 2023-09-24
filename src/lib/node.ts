@@ -33,7 +33,7 @@ export class Node {
   }
 
   calculateF() {
-    this._f = this._g + this._h;
+    this._f = Math.round((this._g + this._h) * 10) / 10;
   }
 
   clearFGH() {

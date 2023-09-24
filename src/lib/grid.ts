@@ -155,6 +155,23 @@ export class Grid {
     this.setNode(key, node);
   }
 
+  resetPathOpenedClosed() {
+    this.path = [];
+    this._nodes.forEach((node) => {
+      node.g = 0;
+      node.h = 0;
+      node.parent = null;
+      node.opened = false;
+      node.closed = false;
+    });
+  }
+
+  resetWalls() {
+    this._nodes.forEach((node) => {
+      node.walkable = true;
+    });
+  }
+
   get matrix() {
     const matrix: Node[][] = [];
 

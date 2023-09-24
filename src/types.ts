@@ -6,3 +6,8 @@ export enum State {
 }
 
 export type Position = [number, number];
+
+export enum Algorithm {
+  AStar,
+  Dijkstra,
+}
