@@ -27,12 +27,12 @@ export const defaults = {
 };
 
 export const colors = {
-  start: "#0000ff",
-  goal: "#0000ff",
+  start: "#4D4DFF",
+  goal: "#4D4DFF",
   wall: "#000000",
-  opened: "#00ff00",
-  closed: "#ff0000",
-  path: "#ffff00",
+  opened: "#36B336",
+  closed: "#B33636",
+  path: "#B3B336",
   default: "#ffffff",
 };
 

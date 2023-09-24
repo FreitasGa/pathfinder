@@ -32,9 +32,11 @@
   });
 </script>
 
-<div class="grid">
+<div
+  class="table border-[2px] border-solid border-black border-spacing-0 border-collapse"
+>
   {#each $grid.matrix as row}
-    <div class="row">
+    <div class="table-row">
       {#each row as node}
         <Node
           bind:node
@@ -46,16 +48,3 @@
     </div>
   {/each}
 </div>
-
-<style>
-  .grid {
-    display: table;
-    border: 2px solid black;
-    border-spacing: 0;
-    border-collapse: collapse;
-  }
-
-  .row {
-    display: table-row;
-  }
-</style>

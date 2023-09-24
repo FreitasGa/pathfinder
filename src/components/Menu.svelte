@@ -27,8 +27,6 @@
     const currentGrid = get(grid);
     const { opened, closed, path } = pathfinder(currentGrid, algorithm);
 
-    console.log("path", path);
-
     await animateOpenedAndClosed(opened, closed);
     await animatePath(path);
   }
@@ -52,6 +50,11 @@
     if (currentState !== State.Idle) {
       throw new Error("Cannot reset walls while not idle");
     }
+
+    grid.update((value) => {
+      value.resetPathOpenedClosed();
+      return value;
+    });
 
     grid.update((value) => {
       value.resetWalls();

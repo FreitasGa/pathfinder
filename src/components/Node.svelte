@@ -82,7 +82,10 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-  class="node {(start || goal) && 'start-goal'}"
+  class="
+    table-cell border border-solid border-black w-[60px] h-[60px] text-center align-middle text-white transition-colors duration-500
+    {(start || goal) && 'font-bold select-none cursor-grab'}
+  "
   style="background-color: {color};"
   draggable={start || goal}
   on:mousedown={handleMouseDown}
@@ -93,37 +96,19 @@
   {#if start}
     S
   {:else if goal}
-    G
+    <div class="flex flex-col">
+      G
+      {#if node.g}
+        <span class="text-[16px] font-medium">{node.g}</span>
+      {/if}
+    </div>
   {:else if node.f || node.g || node.h}
-    <div class="values">
-      <div class="g-h-cost">
+    <div class="flex flex-col p-2">
+      <div class="flex flex-row justify-between text-[12px] font-medium">
         <span>{node.g}</span>
         <span>{node.h}</span>
       </div>
-
-      <span class="f-cost">{node.f}</span>
+      <span class="text-[16px] font-medium">{node.f}</span>
     </div>
   {/if}
 </div>
-
-<style>
-  .node {
-    display: table-cell;
-    border: 1px solid black;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    transition: background-color 0.5s ease;
-    color: white;
-  }
-
-  .values {
-    font-size: 0.625rem;
-  }
-  .start-goal {
-    font-weight: bold;
-    user-select: none;
-    cursor: grab;
-  }
-</style>
