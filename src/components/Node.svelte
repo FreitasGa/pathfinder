@@ -21,6 +21,7 @@
     }
 
     grid.update((value) => {
+      value.resetPathOpenedClosed();
       value.toggleWall(node.position.toString());
       return value;
     });
@@ -66,12 +67,15 @@
 
     grid.update((value) => {
       if ((data.start || data.goal) && !node.walkable) {
+        value.resetPathOpenedClosed();
         value.toggleWall(node.position.toString());
       }
 
       if (data.start) {
+        value.resetPathOpenedClosed();
         value.setStart(node.position.toString());
       } else if (data.goal) {
+        value.resetPathOpenedClosed();
         value.setGoal(node.position.toString());
       }
 
