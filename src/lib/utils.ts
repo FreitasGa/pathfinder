@@ -1,9 +1,8 @@
 import type { Node } from "./node";
-import type { Position } from "./types";
+import type { Position } from "../types";
 
 export const defaults = {
-  width: 10,
-  height: 10,
+  size: [10, 10] as [number, number],
   start: [4, 9] as Position,
   goal: [4, 1] as Position,
   walls: [
@@ -24,15 +23,16 @@ export const defaults = {
     [3, 8],
     [3, 9],
   ] as Position[],
+  speed: 20,
 };
 
 export const colors = {
-  start: "#0000ff",
-  goal: "#0000ff",
+  start: "#4D4DFF",
+  goal: "#4D4DFF",
   wall: "#000000",
-  opened: "#00ff00",
-  closed: "#ff0000",
-  path: "#ffff00",
+  opened: "#36B336",
+  closed: "#B33636",
+  path: "#B3B336",
   default: "#ffffff",
 };
 
@@ -48,17 +48,13 @@ export function calculateColor(
     return colors.goal;
   } else if (path) {
     return colors.path;
-  } else if (node.isClosed) {
+  } else if (node.closed) {
     return colors.closed;
-  } else if (node.isOpened) {
+  } else if (node.opened) {
     return colors.opened;
-  } else if (!node.isWalkable) {
+  } else if (!node.walkable) {
     return colors.wall;
   } else {
     return colors.default;
   }
-}
-
-export function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
