@@ -66,6 +66,10 @@
     } = JSON.parse(rawData);
 
     grid.update((value) => {
+      if (start || goal) {
+        return value;
+      }
+
       if ((data.start || data.goal) && !node.walkable) {
         value.resetPathOpenedClosed();
         value.toggleWall(node.position.toString());
