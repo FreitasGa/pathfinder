@@ -85,19 +85,34 @@
   }
 </script>
 
-<nav class="flex flex-row gap-2 mt-[10px] bg-[#222222] text-[#fdfdfd] rounded-[10px]">
-  <select class="text-[#000]" bind:value={algorithm}>
-    <option value={Algorithm.AStar}>A*</option>
-    <option value={Algorithm.Dijkstra}>Dijkstra</option>
-  </select>
-  <select class="text-[#000]" bind:value={heuristic}>
-    <option value={Heuristic.Euclidean}>Euclidean</option>
-    <option value={Heuristic.Manhattan}>Manhattan</option>
-  </select>
-  <div class="flex flex-row gap-5 pr-2">
-    <button on:click={handleStart}>Start</button>
-    <button on:click={handleResetPath}>Reset Path</button>
-    <button on:click={handleResetWalls}>Reset Walls</button>
-    <button on:click={handleResetStartAndGoal}>Reset Start and Goal</button>
+<nav class="flex flex-col-reverse items-center gap-4 mt-[10px] rounded-md p-2">
+  <div class="flex flex-row gap-2">
+    <select class="rounded-md text-gray-900" bind:value={algorithm}>
+      <option value={Algorithm.AStar}>A*</option>
+      <option value={Algorithm.Dijkstra}>Dijkstra</option>
+    </select>
+    <select class="rounded-md text-gray-900" bind:value={heuristic}>
+      <option value={Heuristic.Euclidean}>Euclidean</option>
+      <option value={Heuristic.Manhattan}>Manhattan</option>
+      <option value={Heuristic.Diagonal}>Diagonal</option>
+    </select>
+  </div>
+  <div class="flex flex-row gap-2 text-[#fdfdfd]">
+    <button
+      class="rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b7280] ring-0"
+      on:click={handleStart}>Start</button
+    >
+    <button
+      class="rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b7280] ring-0"
+      on:click={handleResetPath}>Reset Path</button
+    >
+    <button
+      class="rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b7280] ring-0"
+      on:click={handleResetWalls}>Reset Walls</button
+    >
+    <button
+      class="rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b7280] ring-0"
+      on:click={handleResetStartAndGoal}>Reset Start and Goal</button
+    >
   </div>
 </nav>
