@@ -9,6 +9,7 @@
   import { defaults } from "../lib/utils";
   import { grid, state } from "../stores";
   import { Algorithm, State } from "../types";
+  import "./menu.css"
 
   let algorithm: Algorithm = Algorithm.AStar;
 
@@ -65,12 +66,12 @@
   }
 </script>
 
-<nav>
-  <select bind:value={algorithm}>
+<nav id="menu">
+  <select id="search" bind:value={algorithm}>
     <option value={Algorithm.AStar}>A*</option>
     <option value={Algorithm.Dijkstra}>Dijkstra</option>
   </select>
-  <button on:click={handleStart}>Start</button>
-  <button on:click={handleResetPath}>Reset Path</button>
-  <button on:click={handleResetWalls}>Reset Walls</button>
+  <button class="button" id="start" on:click={handleStart}>Start</button>
+  <button class="button" id="reset-path" on:click={handleResetPath}>Reset Path</button>
+  <button class="button" id="reset-walls" on:click={handleResetWalls}>Reset Walls</button>
 </nav>

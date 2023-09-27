@@ -29,7 +29,7 @@ export const defaults = {
 export const colors = {
   start: "#4D4DFF",
   goal: "#4D4DFF",
-  wall: "#000000",
+  wall: "#5D5D5D",
   opened: "#36B336",
   closed: "#B33636",
   path: "#B3B336",
