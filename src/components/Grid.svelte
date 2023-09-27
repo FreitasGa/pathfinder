@@ -33,7 +33,7 @@
 </script>
 
 <div
-  class="table border-[2px] border-solid border-black border-spacing-0 border-collapse mb-4"
+  class="table border-[2px] border-solid border-black border-spacing-0 border-collapse"
 >
   {#each $grid.matrix as row}
     <div class="table-row">

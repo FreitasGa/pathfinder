@@ -69,7 +69,7 @@ export class Grid {
     this.setNode(key, node);
   }
 
-  neighbors(key: string) {
+  neighbors(key: string, diagonal: boolean) {
     const node = this.getNode(key)!;
     const [x, y] = node.position;
     const neighbors: Node[] = [];
@@ -82,7 +82,7 @@ export class Grid {
       }
     }
 
-    if (y > 0 && x < this._size[0] - 1) {
+    if (y > 0 && x < this._size[0] - 1 && diagonal) {
       const neighbor = this.getNode([x + 1, y - 1].toString());
 
       if (neighbor && neighbor.walkable) {
@@ -98,7 +98,7 @@ export class Grid {
       }
     }
 
-    if (y < this._size[1] - 1 && x < this._size[0] - 1) {
+    if (y < this._size[1] - 1 && x < this._size[0] - 1 && diagonal) {
       const neighbor = this.getNode([x + 1, y + 1].toString());
 
       if (neighbor && neighbor.walkable) {
@@ -114,7 +114,7 @@ export class Grid {
       }
     }
 
-    if (y < this._size[1] - 1 && x > 0) {
+    if (y < this._size[1] - 1 && x > 0 && diagonal) {
       const neighbor = this.getNode([x - 1, y + 1].toString());
 
       if (neighbor && neighbor.walkable) {
@@ -130,7 +130,7 @@ export class Grid {
       }
     }
 
-    if (y > 0 && x > 0) {
+    if (y > 0 && x > 0 && diagonal) {
       const neighbor = this.getNode([x - 1, y - 1].toString());
 
       if (neighbor && neighbor.walkable) {

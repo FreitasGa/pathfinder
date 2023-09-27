@@ -8,10 +8,10 @@
   import { pathfinder } from "../lib/path";
   import { defaults } from "../lib/utils";
   import { grid, state } from "../stores";
-  import { Algorithm, State } from "../types";
-  import "./menu.css"
+  import { Algorithm, Heuristic, State } from "../types";
 
   let algorithm: Algorithm = Algorithm.AStar;
+  let heuristic: Heuristic = Heuristic.Euclidean;
 
   async function handleStart() {
     const currentState = get(state);
@@ -26,7 +26,11 @@
     });
 
     const currentGrid = get(grid);
-    const { opened, closed, path } = pathfinder(currentGrid, algorithm);
+    const { opened, closed, path } = pathfinder(
+      currentGrid,
+      algorithm,
+      heuristic
+    );
 
     await animateOpenedAndClosed(opened, closed);
     await animatePath(path);
@@ -64,14 +68,36 @@
 
     await animateWalls(defaults.walls);
   }
+
+  async function handleResetStartAndGoal() {
+    const currentState = get(state);
+
+    if (currentState !== State.Idle) {
+      throw new Error("Cannot reset walls while not idle");
+    }
+
+    grid.update((value) => {
+      value.resetPathOpenedClosed();
+      value.setStart(defaults.start.toString());
+      value.setGoal(defaults.goal.toString());
+      return value;
+    });
+  }
 </script>
 
-<nav id="menu">
-  <select id="search" bind:value={algorithm}>
+<nav class="flex flex-row gap-2 mt-[10px] bg-[#222222] text-[#fdfdfd] rounded-[10px]">
+  <select class="text-[#000]" bind:value={algorithm}>
     <option value={Algorithm.AStar}>A*</option>
     <option value={Algorithm.Dijkstra}>Dijkstra</option>
   </select>
-  <button class="button" id="start" on:click={handleStart}>Start</button>
-  <button class="button" id="reset-path" on:click={handleResetPath}>Reset Path</button>
-  <button class="button" id="reset-walls" on:click={handleResetWalls}>Reset Walls</button>
+  <select class="text-[#000]" bind:value={heuristic}>
+    <option value={Heuristic.Euclidean}>Euclidean</option>
+    <option value={Heuristic.Manhattan}>Manhattan</option>
+  </select>
+  <div class="flex flex-row gap-5 pr-2">
+    <button on:click={handleStart}>Start</button>
+    <button on:click={handleResetPath}>Reset Path</button>
+    <button on:click={handleResetWalls}>Reset Walls</button>
+    <button on:click={handleResetStartAndGoal}>Reset Start and Goal</button>
+  </div>
 </nav>

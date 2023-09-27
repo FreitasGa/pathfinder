@@ -21,6 +21,7 @@
     }
 
     grid.update((value) => {
+      value.resetPathOpenedClosed();
       value.toggleWall(node.position.toString());
       return value;
     });
@@ -65,13 +66,20 @@
     } = JSON.parse(rawData);
 
     grid.update((value) => {
+      if (start || goal) {
+        return value;
+      }
+
       if ((data.start || data.goal) && !node.walkable) {
+        value.resetPathOpenedClosed();
         value.toggleWall(node.position.toString());
       }
 
       if (data.start) {
+        value.resetPathOpenedClosed();
         value.setStart(node.position.toString());
       } else if (data.goal) {
+        value.resetPathOpenedClosed();
         value.setGoal(node.position.toString());
       }
 

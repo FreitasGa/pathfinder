@@ -11,3 +11,8 @@ export enum Algorithm {
   AStar,
   Dijkstra,
 }
+
+export enum Heuristic {
+  Manhattan,
+  Euclidean,
+}
