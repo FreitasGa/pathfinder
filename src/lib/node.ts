@@ -49,6 +49,10 @@ export class Node {
     );
   }
 
+  get key() {
+    return this.position.toString();
+  }
+
   get f() {
     return this._f;
   }

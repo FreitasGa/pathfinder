@@ -5,7 +5,7 @@
     animatePath,
     animateWalls,
   } from "../animations/grid";
-  import { pathfinder } from "../lib/path";
+  import { aStar, dijkstra } from "../lib/path";
   import { defaults } from "../lib/utils";
   import { grid, state } from "../stores";
   import { Algorithm, Heuristic, State } from "../types";
@@ -26,14 +26,18 @@
     });
 
     const currentGrid = get(grid);
-    const { opened, closed, path } = pathfinder(
-      currentGrid,
-      algorithm,
-      heuristic
-    );
 
-    await animateOpenedAndClosed(opened, closed);
-    await animatePath(path);
+    if (algorithm === Algorithm.AStar) {
+      const { opened, closed, path } = aStar(currentGrid, heuristic);
+
+      await animateOpenedAndClosed(opened, closed);
+      await animatePath(path);
+    } else if (algorithm === Algorithm.Dijkstra) {
+      const { opened, closed, path } = dijkstra(currentGrid);
+
+      await animateOpenedAndClosed(opened, closed);
+      await animatePath(path);
+    }
   }
 
   async function handleResetPath() {
@@ -91,7 +95,11 @@
       <option value={Algorithm.AStar}>A*</option>
       <option value={Algorithm.Dijkstra}>Dijkstra</option>
     </select>
-    <select class="rounded-md text-gray-900" bind:value={heuristic}>
+    <select
+      class="rounded-md text-gray-900"
+      disabled={algorithm === Algorithm.Dijkstra}
+      bind:value={heuristic}
+    >
       <option value={Heuristic.Euclidean}>Euclidean</option>
       <option value={Heuristic.Manhattan}>Manhattan</option>
       <option value={Heuristic.Diagonal}>Diagonal</option>

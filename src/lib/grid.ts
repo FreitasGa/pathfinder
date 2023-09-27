@@ -31,8 +31,7 @@ export class Grid {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const node = new Node([x, y]);
-        const key = node.position.toString();
-        nodes.set(key, node);
+        nodes.set(node.key, node);
       }
     }
 

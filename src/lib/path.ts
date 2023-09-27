@@ -1,8 +1,9 @@
-import type { Grid } from "./grid";
-import { calculateHeuristic, euclidean } from "./heuristic";
-import type { Node } from "./node";
+import { Heuristic } from "../types";
 import { backtrace } from "./backtrace";
-import { Algorithm, Heuristic } from "../types";
+import { calculateDistance } from "./distance";
+import type { Grid } from "./grid";
+import { calculateHeuristic } from "./heuristic";
+import type { Node } from "./node";
 
 export type Result = {
   opened: Node[][];
@@ -10,11 +11,7 @@ export type Result = {
   path: Node[];
 };
 
-export function aStar(
-  grid: Grid,
-  heuristic: Heuristic,
-  diagonal: boolean
-): Result {
+export function aStar(grid: Grid, heuristic: Heuristic): Result {
   if (!grid.start || !grid.goal) {
     throw new Error("Cannot run without a start and goal node");
   }
@@ -48,12 +45,15 @@ export function aStar(
       };
     }
 
-    const neighbors = grid.neighbors(current.position.toString(), diagonal);
+    const neighbors = grid.neighbors(
+      current.key,
+      heuristic !== Heuristic.Manhattan
+    );
 
     for (const neighbor of neighbors) {
       if (closedSet.includes(neighbor)) continue;
 
-      const g = current.g + calculateHeuristic(current, neighbor, heuristic);
+      const g = current.g + calculateDistance(current, neighbor);
 
       if (g < neighbor.g || !openSet.includes(neighbor)) {
         neighbor.g = g;
@@ -77,11 +77,7 @@ export function aStar(
   };
 }
 
-export function dijkstra(
-  grid: Grid,
-  heuristic: Heuristic,
-  diagonal: boolean
-): Result {
+export function dijkstra(grid: Grid): Result {
   if (!grid.start || !grid.goal) {
     throw new Error("Cannot run without a start and goal node");
   }
@@ -108,12 +104,12 @@ export function dijkstra(
       };
     }
 
-    const neighbors = grid.neighbors(current.position.toString(), diagonal);
+    const neighbors = grid.neighbors(current.key, true);
 
     for (const neighbor of neighbors) {
       if (closedSet.includes(neighbor)) continue;
 
-      const g = current.g + calculateHeuristic(current, neighbor, heuristic);
+      const g = current.g + calculateDistance(current, neighbor);
 
       if (g < neighbor.g || !openSet.includes(neighbor)) {
         neighbor.g = g;
@@ -134,26 +130,4 @@ export function dijkstra(
     closed,
     path: [],
   };
-}
-
-const algorithms: Record<
-  Algorithm,
-  (grid: Grid, heuristic: Heuristic, diagonal: boolean) => Result
-> = {
-  [Algorithm.AStar]: aStar,
-  [Algorithm.Dijkstra]: dijkstra,
-};
-
-export function pathfinder(
-  grid: Grid,
-  algorithm: Algorithm,
-  heuristic: Heuristic
-): Result {
-  let diagonal = true;
-
-  if (heuristic === Heuristic.Manhattan) {
-    diagonal = false;
-  }
-
-  return algorithms[algorithm](grid, heuristic, diagonal);
 }
