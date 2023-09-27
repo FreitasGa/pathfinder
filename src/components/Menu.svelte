@@ -85,17 +85,19 @@
   }
 </script>
 
-<nav>
-  <select bind:value={algorithm}>
+<nav class="flex flex-row gap-2 mt-[10px] bg-[#222222] text-[#fdfdfd] rounded-[10px]">
+  <select class="text-[#000]" bind:value={algorithm}>
     <option value={Algorithm.AStar}>A*</option>
     <option value={Algorithm.Dijkstra}>Dijkstra</option>
   </select>
-  <select bind:value={heuristic}>
+  <select class="text-[#000]" bind:value={heuristic}>
     <option value={Heuristic.Euclidean}>Euclidean</option>
     <option value={Heuristic.Manhattan}>Manhattan</option>
   </select>
-  <button on:click={handleStart}>Start</button>
-  <button on:click={handleResetPath}>Reset Path</button>
-  <button on:click={handleResetWalls}>Reset Walls</button>
-  <button on:click={handleResetStartAndGoal}>Reset Start and Goal</button>
+  <div class="flex flex-row gap-5 pr-2">
+    <button on:click={handleStart}>Start</button>
+    <button on:click={handleResetPath}>Reset Path</button>
+    <button on:click={handleResetWalls}>Reset Walls</button>
+    <button on:click={handleResetStartAndGoal}>Reset Start and Goal</button>
+  </div>
 </nav>
