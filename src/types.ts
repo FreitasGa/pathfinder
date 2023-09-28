@@ -15,4 +15,5 @@ export enum Algorithm {
 export enum Heuristic {
   Manhattan,
   Euclidean,
+  Diagonal,
 }

@@ -1,5 +1,5 @@
-import type { Node } from "./node";
 import type { Position } from "../types";
+import type { Node } from "./node";
 
 export const defaults = {
   size: [10, 10] as [number, number],
@@ -29,11 +29,11 @@ export const defaults = {
 export const colors = {
   start: "#4D4DFF",
   goal: "#4D4DFF",
-  wall: "#5D5D5D",
+  wall: "#000000",
   opened: "#36B336",
   closed: "#B33636",
   path: "#B3B336",
-  default: "#ffffff",
+  default: "#FFFFFF",
 };
 
 export function calculateColor(
