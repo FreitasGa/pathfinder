@@ -1,47 +1,79 @@
-# Svelte + TS + Vite
+# Pathfinding Algorithm Visualization
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+This project is a pathfinding algorithm visualization tool created with Svelte and TypeScript. It allows users to interactively visualize the A\* algorithm using three different heuristic functions (Euclidean, Manhattan, and Diagonal) and the Dijkstra algorithm. Whether you're a student learning about pathfinding algorithms or a developer looking for a visual representation of these algorithms, this tool provides a helpful way to understand and explore how they work.
 
-## Recommended IDE Setup
+## Table of Contents
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+- [Authors](#authors)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
 
-## Need an official Svelte framework?
+## Authors
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+- [Gabriel Araújo Freitas](https://github.com/FreitasGa) - GitHub Profile
+- [Diogo Dias Mello](https://github.com/DiogoMEng) - GitHub Profile
 
-## Technical considerations
+## Features
 
-**Why use this over SvelteKit?**
+- Interactive grid where you can toggle walls by clicking on cells.
+- Ability to move the start and goal nodes by clicking and dragging them.
+- Three heuristic functions for the A\* algorithm: Euclidean, Manhattan, and Diagonal.
+- Visualization of the A\* algorithm and Dijkstra algorithm.
+- Real-time information on open and closed nodes, as well as the path found.
+- Four buttons for easy control: Start, Reset Path, Reset Walls, and Reset Start & Goal.
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## Getting Started
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+Follow these steps to get a copy of the project up and running on your local machine.
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+1. **Clone the repository**:
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+   git clone https://github.com/FreitasGa/pathfinder.git
 ```
+
+2. **Navigate to the project directory**:
+
+```bash
+   cd pathfinder
+```
+
+3. **Install the dependencies**:
+
+```bash
+   npm install
+```
+
+4. **Start the development server**:
+
+```bash
+   npm run dev
+```
+
+This will launch the development server, and you can access the application in your web browser at [localhost:5173](http://localhost:5173/).
+
+## Usage
+
+1. **Drawing the Grid**:
+
+   - Click on a grid cell to toggle walls. Click again to remove walls.
+
+2. **Moving Start and Goal Nodes**:
+
+   - Click and drag the start and goal nodes to change their positions on the grid.
+
+3. **Selecting the Algorithm and Heuristic**:
+
+   - Choose an algorithm (A* or Dijkstra) from the dropdown menu.
+   - Select a heuristic function (Euclidean, Manhattan, or Diagonal) for the A* algorithm.
+
+4. **Running the Algorithm**:
+
+   - Click the "Start" button to run the selected algorithm.
+
+5. **Resetting**:
+
+   - Click the "Reset Path" button to clear the path found by the algorithm but keep walls, start, and end points.
+   - Click the "Reset Walls" button to clear the walls on the grid but keep the path, start, and end points.
+   - Click the "Reset Start & Goal" button to clear the start and end points on the grid.
