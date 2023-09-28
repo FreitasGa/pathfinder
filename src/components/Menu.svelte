@@ -111,7 +111,7 @@
   </div>
   <div class="flex flex-row gap-2 text-[#fdfdfd]">
     <button
-      class="w-[180px] rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b806d] disabled:opacity-70"
+      class="w-[180px] rounded-md px-3 py-2 bg-white text-gray-900 border border-[#6b7280] disabled:opacity-70"
       disabled={$state !== State.Idle}
       on:click={handleResetPath}>Reset Path</button
     >

@@ -1,6 +1,6 @@
 import { Heuristic } from "../types";
 import { backtrace } from "./backtrace";
-import { calculateDistance } from "./distance";
+import { calculateCost } from "./cost";
 import type { Grid } from "./grid";
 import { calculateHeuristic } from "./heuristic";
 import type { Node } from "./node";
@@ -53,7 +53,7 @@ export function aStar(grid: Grid, heuristic: Heuristic): Result {
     for (const neighbor of neighbors) {
       if (closedSet.includes(neighbor)) continue;
 
-      const g = current.g + calculateDistance(current, neighbor);
+      const g = current.g + calculateCost(current, neighbor);
 
       if (g < neighbor.g || !openSet.includes(neighbor)) {
         neighbor.g = g;
@@ -109,7 +109,7 @@ export function dijkstra(grid: Grid): Result {
     for (const neighbor of neighbors) {
       if (closedSet.includes(neighbor)) continue;
 
-      const g = current.g + calculateDistance(current, neighbor);
+      const g = current.g + calculateCost(current, neighbor);
 
       if (g < neighbor.g || !openSet.includes(neighbor)) {
         neighbor.g = g;
