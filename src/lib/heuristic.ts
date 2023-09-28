@@ -6,8 +6,6 @@ export function euclidean(start: Node, goal: Node) {
   const dy = Math.abs(start.position[1] - goal.position[1]);
 
   return Math.round(Math.sqrt(dx * dx + dy * dy) * 10);
-
-  return Math.sqrt(dx * dx + dy * dy) * 10;
 }
 
 export function manhattan(start: Node, goal: Node) {
