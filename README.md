@@ -4,10 +4,15 @@ This project is a pathfinding algorithm visualization tool created with Svelte a
 
 ## Table of Contents
 
+- [Live Demo](#live-demo)
 - [Authors](#authors)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
+
+## Live Demo
+
+Explore the live demo of this interactive pathfinding algorithm visualization tool [here](https://freitasga.github.io/pathfinder/).
 
 ## Authors
 
